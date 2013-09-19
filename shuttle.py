@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask
+from flask import Flask, render_template, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -21,14 +21,15 @@ class Arrival(db.Model):
         return '{a} to {b} at {t}'.format(a=stop, b=destination,
                                           t=time)
 
-
 @app.route("/")
 def index():
-    pass
+    return render_template("index.html")
 
 @app.route("/time", methods=["POST"])
 def time():
-    pass
+    time = datetime.utcnow()
+    return "Thanks! We recorded that the {d} shuttle to {s} picked up at {t}" \
+      .format(t=time)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
